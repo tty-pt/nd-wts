@@ -41,8 +41,18 @@ verb_to(unsigned player_ref, unsigned target_ref, unsigned wt, char *extra) {
 	nd_writef(player_ref, "You %s %s%s\n", wts, target.name, extra);
 
 	wts_plural = plural(wts);
-	nd_writef(target_ref, "%s %s you%s\n", player.name, wts_plural, extra);
 	len = snprintf(buf, sizeof(buf), "%s %s %s%s\n", player.name, wts_plural, target.name, extra);
+
+	char posessive[BUFSIZ];
+	*posessive = '\0';
+
+	if (extra[0] == '\'' && extra[1] == 's') {
+		snprintf(posessive, sizeof(posessive), "%s%s",
+				"r", extra + 2);
+		extra = posessive;
+	}
+
+	nd_writef(target_ref, "%s %s you%s\n", player.name, wts_plural, extra);
 
 	c = nd_iter(HD_CONTENTS, &player.location);
 
