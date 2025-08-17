@@ -30,7 +30,7 @@ verb_to(unsigned player_ref, unsigned target_ref, unsigned wt, char *extra) {
 	char buf[BUFSIZ * 3];
 	unsigned tmp_ref;
 	OBJ player, target;
-	nd_cur_t c;
+	unsigned c;
 	size_t len;
 	char wts[BUFSIZ], *wts_plural;
 
@@ -56,7 +56,7 @@ verb_to(unsigned player_ref, unsigned target_ref, unsigned wt, char *extra) {
 
 	c = nd_iter(HD_CONTENTS, &player.location);
 
-	while (nd_next(&player.location, &tmp_ref, &c)) {
+	while (nd_next(&player.location, &tmp_ref, c)) {
 		OBJ tmp;
 
 		if (tmp_ref == player_ref || tmp_ref == target_ref)
