@@ -1,6 +1,6 @@
 all := libnd-wts
 
-LDLIBS-libnd-wts := -lxylem
+LDLIBS-libnd-wts := -lxylem -laxil-nd
 
 
 # macOS ld rejects undefined symbols in shared libs, but WARN needs
