@@ -15,28 +15,35 @@
 
 #include <nd/xy.h>
 
+static unsigned last_n;
+
+static int
+wts_row(const char *const *f, size_t n, void *user)
+{
+	(void)user;
+	if (n < 1 || !f[0][0])
+		return 0;
+	last_n = (unsigned)nd_put(HD_WTS, NULL, (void *)f[0]);
+	return 0;
+}
+
 XY_MODULE_API void
 xy_install(void)
 {
-	/* nd_put returns the new entry's index, so reporting the last one proves
-	 * the registrations actually landed in the engine's table rather than
-	 * being accepted and dropped -- which is the whole content of this
-	 * module, and all a test can observe from outside it. */
-	unsigned n;
-	nd_put(HD_WTS, NULL, "peck");
-	nd_put(HD_WTS, NULL, "slash");
-	nd_put(HD_WTS, NULL, "bite");
+	if (nd_table_load("nd-wts", "wts", wts_row, NULL) < 0) {
+		nd_put(HD_WTS, NULL, "peck");
+		nd_put(HD_WTS, NULL, "slash");
+		nd_put(HD_WTS, NULL, "bite");
+		nd_put(HD_WTS, NULL, "heal");
+		nd_put(HD_WTS, NULL, "bleed");
+		nd_put(HD_WTS, NULL, "haste");
+		nd_put(HD_WTS, NULL, "stun");
+		nd_put(HD_WTS, NULL, "leer");
+		nd_put(HD_WTS, NULL, "focus");
+		nd_put(HD_WTS, NULL, "distract");
+		nd_put(HD_WTS, NULL, "evade");
+		last_n = (unsigned)nd_put(HD_WTS, NULL, "hobble");
+	}
 
-	/* PHYSICAL things combined with special effects */
-	nd_put(HD_WTS, NULL, "heal");
-	nd_put(HD_WTS, NULL, "bleed");
-	nd_put(HD_WTS, NULL, "haste");
-	nd_put(HD_WTS, NULL, "stun");
-	nd_put(HD_WTS, NULL, "leer");
-	nd_put(HD_WTS, NULL, "focus");
-	nd_put(HD_WTS, NULL, "distract");
-	nd_put(HD_WTS, NULL, "evade");
-	n = nd_put(HD_WTS, NULL, "hobble");
-
-	WARN("nd-wts: xy_install, 11 HD_WTS words, last index %u\n", n);
+	WARN("nd-wts: xy_install, HD_WTS words loaded, last index %u\n", last_n);
 }

@@ -1,6 +1,6 @@
 all := libnd-wts
 
-LDLIBS-libnd-wts := -lxylem
+LDLIBS-libnd-wts := -lxylem -laxil-nd
 
 
 # macOS ld rejects undefined symbols in shared libs, but WARN needs
@@ -8,6 +8,6 @@ LDLIBS-libnd-wts := -lxylem
 # allows this by default). dynamic_lookup is the Darwin equivalent.
 LDFLAGS-libnd-wts-Darwin += -undefined dynamic_lookup
 FOLDER := nd
-add-prefix-glob := ../nd-* ../axil-nd
+add-prefix := ../axil-nd ../nd-region ../nd-session ../nd-world ../nd-view ../nd-obj ../nd-speech ../nd-mcp
 
 -include ./../mk/include.mk
