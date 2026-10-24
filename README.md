@@ -63,6 +63,24 @@ either way.
   engine's table rather than being accepted and dropped — which is the whole
   content of this module, and all a test can observe from outside it.
 
+## In-Game Commands (`man-src/`)
+
+None directly. Provides the weapon-to-skill vocabulary and attack verbs used during combat messaging.
+
+## Packaged Assets (`art/`)
+
+Combat effect text templates and battle glyphs.
+
+## Wire Protocol & BCP Integration
+
+Supplies formatted attack verbs (e.g. `slashes`, `bites`, `pecks`, `stuns`) into combat text streams routed to the client terminal.
+
+## Modder Extension Guide
+
+To register new attack flavor verbs or weapon impact terms:
+1. Call `nd_put(HD_WTS, NULL, "verb")` in `xy_install()`.
+2. Reference the resulting `HD_WTS` index in your weapon skeleton definitions.
+
 ## Testing
 
 There is no `test.sh` here. Behaviour is asserted by the engine's own suite,
